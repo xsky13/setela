@@ -18,11 +18,15 @@ async function signOut() {
         loading.value = false;
     }
 }
+
+const route = useRoute()
+
+console.log(route.path);
 </script>
 
 <template>
     <nav
-        class="fixed z-50 bg-white w-full flex justify-around items-center border-dashed border-b bolder-black py-6"
+        :class="`fixed z-50 ${route.path == '/' ? 'bg-transparent backdrop-blur-md text-white' : 'bg-white'} w-full flex justify-around items-center border-dashed border-b py-6`"
     >
         <NuxtLink to="/" class="heading text-3xl">Setela</NuxtLink>
         <ul class="flex items-center">

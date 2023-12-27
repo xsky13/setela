@@ -13,15 +13,19 @@
 }
 
 h1 {
-    @apply text-5xl;
+    @apply md:text-5xl text-4xl;
 }
 
 h2 {
-    @apply text-4xl;
+    @apply md:text-4xl text-3xl;
 }
 
 h3 {
-    @apply text-3xl;
+    @apply md:text-3xl text-2xl;
+}
+
+p, label, li, div, span {
+    @apply md:text-base text-sm
 }
 
 h1, h2, h3, .heading {
@@ -30,7 +34,7 @@ h1, h2, h3, .heading {
 }
 
 .text-field {
-    @apply w-full border border-gray-300 rounded-lg px-5 py-2.5 focus:outline-slate-600;
+    @apply w-full md:text-base text-sm border border-gray-300 rounded-lg px-5 py-2.5 focus:outline-slate-600;
 }
 
 .year-box {
@@ -38,7 +42,7 @@ h1, h2, h3, .heading {
 }
 
 .btn {
-    @apply inline-flex justify-center items-center text-center px-4 py-2.5 rounded-md shadow-xl transition duration-300 text-sm cursor-pointer disabled:bg-gray-500 disabled:cursor-default disabled:hover:bg-gray-500 disabled:shadow-sm;
+    @apply inline-flex justify-center items-center text-center px-4 py-2.5 rounded-md shadow-xl transition duration-300 md:text-base text-sm cursor-pointer disabled:bg-gray-500 disabled:cursor-default disabled:hover:bg-gray-500 disabled:shadow-sm;
 }
 
 .btn-primary {

@@ -25,18 +25,21 @@ const handleLogin = async () => {
 </script>
 
 <template>
-    <form
-        class="h-screen flex justify-center items-center"
-        @submit.prevent="handleLogin"
+    <div
+        class="h-screen flex justify-center items-center bg-[url('/main-bg.jpg')]"
     >
-        <div class="w-5/12">
+    <form
+        @submit.prevent="handleLogin"
+        class="w-11/12 sm:w-9/12 lg:w-5/12 p-16 rounded-xl shadow-xl backdrop-blur-md"
+    >
+        <div class="text-white">
             <h1>Ingresar</h1>
             <div class="my-5">
                 <label for="email" class="mt-5">
                     Ingrese su correo electrónico para recibir una verificación
                 </label>
                 <input
-                    class="text-field"
+                    class="mt-1 text-field !bg-transparent focus:!outline-none"
                     type="email"
                     id="email"
                     placeholder="Correo electrónico"
@@ -49,4 +52,6 @@ const handleLogin = async () => {
             </button>
         </div>
     </form>
+    </div>
+
 </template>
