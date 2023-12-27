@@ -1,12 +1,5 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import {
-    Listbox,
-    ListboxButton,
-    ListboxOptions,
-    ListboxOption,
-} from "@headlessui/vue";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 
 const props = defineProps(["user", "inviteAsProfesor", "userNum"]);
 const supabase = useSupabaseClient();
@@ -79,6 +72,33 @@ const changeYear = async (userId, year) => {
         userLoading.value = false;
     }
 };
+
+const removeProfesor = async () => {
+    if (
+        window.confirm(
+            "Esta seguro que quiere eliminar a este usuario como profesor?"
+        )
+    ) {
+        userLoading.value = true;
+
+        const { data: subjects } = await supabase
+            .from("subject")
+            .update({ userId: null })
+            .eq("userId", user.value.id)
+            .then(async () => {
+                await supabase
+                    .from("profiles")
+                    .update({ profesor: false })
+                    .eq("id", user.value.id)
+                    .select()
+                    .single()
+                    .then((res) => {
+                        user.value = res.data;
+                        userLoading.value = false;
+                    });
+            });
+    }
+};
 </script>
 
 <template>
@@ -92,7 +112,12 @@ const changeYear = async (userId, year) => {
         class="w-full py-4 px-6 rounded-xl my-6 border border-dashed bg-gray-50 flex justify-between"
     >
         <div>
-            <p class="font-bold">{{ user.full_name }}</p>
+            <p class="font-bold">
+                {{ user.full_name }}
+                <span class="font-normal"
+                    >• {{ user.profesor ? "profesor" : "estudiante" }}</span
+                >
+            </p>
             <span class="text-sm text-gray-600"
                 >Año {{ user.year }}
                 <span
@@ -112,7 +137,9 @@ const changeYear = async (userId, year) => {
                     <div
                         @click="() => (selectedYear = year)"
                         v-for="year in years"
-                        :class="`${selectedYear == year || 'bg-white'} px-6 py-3 first:pt-4 last:pb-4 last:border-none text-sm border-b border-dashed cursor-pointer transition duration-150`"
+                        :class="`${
+                            selectedYear == year || 'bg-white'
+                        } px-6 py-3 first:pt-4 last:pb-4 last:border-none text-sm border-b border-dashed cursor-pointer transition duration-150`"
                     >
                         {{ year.text }}
                     </div>
@@ -155,7 +182,7 @@ const changeYear = async (userId, year) => {
                     class="absolute z-50 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none"
                 >
                     <div class="px-1 py-1">
-                        <MenuItem>
+                        <MenuItem v-if="!user.profesor">
                             <div
                                 v-if="!user.invitedAsProfesor"
                                 @click.prevent="
@@ -179,6 +206,14 @@ const changeYear = async (userId, year) => {
                                 class="cursor-pointer flex w-full items-center rounded-md px-4 py-2.5 hover:bg-gray-100 text-[0.95rem]"
                             >
                                 Eliminar invitación
+                            </div>
+                        </MenuItem>
+                        <MenuItem v-else>
+                            <div
+                                @click="removeProfesor"
+                                class="cursor-pointer flex w-full items-center rounded-md px-4 py-2.5 hover:bg-gray-100 text-[0.95rem]"
+                            >
+                                Hacer estudiante
                             </div>
                         </MenuItem>
                     </div>
