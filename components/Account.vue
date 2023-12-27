@@ -149,7 +149,7 @@ const inviteAsProfesor = async (userId, elementIndex) => {
 <template>
     <img v-if="pageLoading" src="/loading.svg" class="block m-auto pt-40" />
     <div v-if="data.full_name">
-        <NuxtLink to="/profesor" class="box !py-2 !px-4 mb-10 link text-center" v-if="data.invitedAsProfesor">
+        <NuxtLink to="/profesor" class="box !py-2 !px-4 mb-10 link text-center" v-if="data.invitedAsProfesor && !data.profesor">
             Invitación a profesorado
         </NuxtLink>
         <div class="flex items-end justify-between">
@@ -207,8 +207,10 @@ const inviteAsProfesor = async (userId, elementIndex) => {
 
         <!-- User profesor -->
         <div v-else-if="isProfesor" class="my-10">
-            <h3 class="h3 mt-6 mb-2">Sus Materias</h3>
-            <hr />
+            <div class="flex justify-between items-center my-6">
+                <h3 class="h3">Sus Materias</h3>
+                <NuxtLink to="/agregar-materia" class="btn btn-primary">Agregar</NuxtLink>
+            </div>
             <ProfesorSubjects :user="data" />
         </div>
 
