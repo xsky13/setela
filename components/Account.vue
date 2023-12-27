@@ -78,9 +78,8 @@ for (const trimester of trimesters.value) {
 if (isAdmin) {
     const { data } = await supabase
         .from("profiles")
-        .select(
-            `id, full_name, avatar_url, admin, profesor, year, invitedAsProfesor`
-        );
+        .select()
+        .not('admin', 'is', true);
     usersAdminAccess.value = data;
 }
 
