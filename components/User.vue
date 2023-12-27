@@ -99,6 +99,25 @@ const removeProfesor = async () => {
             });
     }
 };
+
+const deleteUser = async () => {
+    if (
+        confirm(
+            "Esta seguro que quiere eliminar este usuario? Esta acción es irreversible"
+        )
+    ) {
+        userLoading.value = true;
+
+        await supabase
+            .from("profiles")
+            .delete()
+            .eq("id", user.value.id)
+            .then(() => {
+                userLoading.value = false;
+                user.value = null;
+            });
+    }
+};
 </script>
 
 <template>
@@ -108,7 +127,7 @@ const removeProfesor = async () => {
         class="w-20 block m-auto py-10"
     />
     <div
-        v-else
+        v-else-if="user"
         class="w-full py-4 px-6 rounded-xl my-6 border border-dashed bg-gray-50 flex justify-between"
     >
         <div>
@@ -214,6 +233,14 @@ const removeProfesor = async () => {
                                 class="cursor-pointer flex w-full items-center rounded-md px-4 py-2.5 hover:bg-gray-100 text-[0.95rem]"
                             >
                                 Hacer estudiante
+                            </div>
+                        </MenuItem>
+                        <MenuItem>
+                            <div
+                                @click="deleteUser"
+                                class="text-red-600 cursor-pointer flex w-full items-center rounded-md px-4 py-2.5 hover:bg-gray-100 text-[0.95rem]"
+                            >
+                                Eliminar estudiante
                             </div>
                         </MenuItem>
                     </div>

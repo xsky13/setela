@@ -183,6 +183,11 @@ const handleSubmit = async () => {
                     .from("subject")
                     .update({ userId: props.user.id })
                     .eq("id", userSubjects.value.subject.id);
+
+                await supabase
+                    .from("profiles")
+                    .update({ invitedAsProfesor: false })
+                    .eq('id', props.user.id)
             }
         } catch (error) {
             console.log(error);
