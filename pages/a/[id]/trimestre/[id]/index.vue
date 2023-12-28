@@ -55,7 +55,7 @@ if (!supaTrimester) {
 // console.log(subjects.value);
 </script>
 <template>
-    <div class="py-40 block m-auto w-7/12">
+    <div class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-7/12">
         <h1 v-if="!trimesterExists" class="text-center">Este año no existe</h1>
         <div v-else>
             <h1>{{ trimester.title }}</h1>
@@ -64,7 +64,7 @@ if (!supaTrimester) {
                 :to="`./${route.params.id}/periodo/` + subject.id"
                 class="box my-5"
             >
-                <span class="font-bold">{{ subject.title }}</span>
+                <span>{{ subject.title }}</span>
                 <br />
                 <div class="text-sm text-gray-600">
                     Periodo #{{ subject.period }}

@@ -21,6 +21,7 @@ defineExpose({ deleteSubjectModalRef });
                     '/periodo/' +
                     props.subject.subject.id
                 "
+                class="text-sm md:text-base"
                 >{{ props.subject.subject.title }}</NuxtLink
             >
             <br />

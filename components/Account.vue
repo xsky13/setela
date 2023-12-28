@@ -1,7 +1,7 @@
 <script setup>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { ChevronDownIcon, PencilIcon } from "@heroicons/vue/20/solid";
 
 const supabase = useSupabaseClient();
 
@@ -79,7 +79,7 @@ if (isAdmin) {
     const { data } = await supabase
         .from("profiles")
         .select()
-        .not('admin', 'is', true);
+        .not("admin", "is", true);
     usersAdminAccess.value = data;
 }
 
@@ -148,10 +148,14 @@ const inviteAsProfesor = async (userId, elementIndex) => {
 <template>
     <img v-if="pageLoading" src="/loading.svg" class="block m-auto pt-40" />
     <div v-if="data.full_name">
-        <NuxtLink to="/profesor" class="box !py-2 !px-4 mb-10 link text-center" v-if="data.invitedAsProfesor && !data.profesor">
+        <NuxtLink
+            to="/profesor"
+            class="box !py-2 !px-4 mb-10 link text-center"
+            v-if="data.invitedAsProfesor && !data.profesor"
+        >
             Invitación a profesorado
         </NuxtLink>
-        <div class="flex items-end justify-between">
+        <div class="flex items-center justify-between">
             <h1 v-if="header == 'title'">Bienvenido/a {{ full_name }}</h1>
             <div v-if="header == 'edit'" class="">
                 <form
@@ -178,9 +182,21 @@ const inviteAsProfesor = async (userId, elementIndex) => {
             <button
                 v-if="header == 'title'"
                 @click="changeHeaderContent"
-                class="btn btn-secondary"
             >
-                Editar
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-4 h-4 md:w-5 md:h-5"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                    />
+                </svg>
             </button>
             <button
                 v-if="header == 'edit'"
@@ -208,7 +224,9 @@ const inviteAsProfesor = async (userId, elementIndex) => {
         <div v-else-if="isProfesor" class="my-10">
             <div class="flex justify-between items-center my-6">
                 <h3 class="h3">Sus Materias</h3>
-                <NuxtLink to="/agregar-materia" class="btn btn-primary">Agregar</NuxtLink>
+                <NuxtLink to="/agregar-materia" class="btn btn-primary"
+                    >Agregar</NuxtLink
+                >
             </div>
             <ProfesorSubjects :user="data" />
         </div>

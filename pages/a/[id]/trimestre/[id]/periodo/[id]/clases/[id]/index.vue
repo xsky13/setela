@@ -154,7 +154,7 @@ const addMaterial = async () => {
 <template>
     <div>
         <h1 v-if="error" class="py-40 text-center">Esta clase no existe</h1>
-        <div v-else class="py-40 w-7/12 block m-auto">
+        <div v-else class="container">
             <div class="mb-6 flex justify-between items-center">
                 <div>
                     <h1>{{ lesson.title }}</h1>
@@ -200,7 +200,7 @@ const addMaterial = async () => {
                 </div>
             </div>
             <div
-                class="leading-7 mt-10"
+                class="mt-10"
                 v-html="
                     edjsParser.parseStrict(JSON.parse(lesson.content)).join(' ')
                 "

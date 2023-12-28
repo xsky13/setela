@@ -174,7 +174,7 @@ const handleSubmit = async () => {
         try {
             const user = await supabase
                 .from("profiles")
-                .update({ profesor: true })
+                .update({ profesor: true, invitedAsProfesor: false })
                 .eq("id", props.user.id)
                 .select();
 
@@ -184,10 +184,35 @@ const handleSubmit = async () => {
                     .update({ userId: props.user.id })
                     .eq("id", userSubjects.value.subject.id);
 
-                await supabase
-                    .from("profiles")
-                    .update({ invitedAsProfesor: false })
-                    .eq('id', props.user.id)
+                // for each test in the subject make the current user reference its userId
+                const { data: testsInSubject } = await supabase
+                    .from('test')
+                    .select()
+                    .eq('subjectId', userSubjects.value.subject.id)
+                
+                if (testsInSubject?.length) {
+                    for (const test in testsInSubject) {
+                        await supabase
+                            .from('test')
+                            .update({ userId: props.user.id })
+                            .eq('subjectId', userSubjects.value.subject.id)
+                    }
+                }
+
+                // for each lesson in the subject make the current user reference its userId
+                const { data: lessonsInSubject } = await supabase
+                    .from('lesson')
+                    .select()
+                    .eq('subjectId', userSubjects.value.subject.id)
+                
+                if (lessonsInSubject?.length) {
+                    for (const lesson in lessonsInSubject) {
+                        await supabase
+                            .from('lesson')
+                            .update({ userId: props.user.id })
+                            .eq('subjectId', userSubjects.value.subject.id)
+                    }
+                }
             }
         } catch (error) {
             console.log(error);
@@ -200,7 +225,7 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div>
-        <div v-if="props.user?.invitedAsProfesor" class="py-40 block m-auto w-6/12">
+        <div v-if="props.user?.invitedAsProfesor" class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-6/12">
             <h1>Invitación de profesorado</h1>
 
             <form @submit.prevent="handleSubmit" class="my-5">

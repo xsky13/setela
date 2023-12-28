@@ -28,7 +28,7 @@ if (!supaYear) {
 // console.log(trimesters.value);
 </script>
 <template>
-    <div class="py-40 block m-auto w-7/12">
+    <div class="py-40 block m-auto w-10/12 md:w-7/12">
         <h1 v-if="!yearExists" class="text-center">Este año no existe</h1>
         <div v-else>
             <h1>{{ year.title }}</h1>

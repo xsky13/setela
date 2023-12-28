@@ -195,7 +195,7 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div>
-        <div v-if="props.user?.profesor" class="py-40 block m-auto w-6/12">
+        <div v-if="props.user?.profesor" class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-6/12">
             <h1>Agregar materia</h1>
 
             <form @submit.prevent="handleSubmit" class="my-5">

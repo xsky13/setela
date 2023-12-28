@@ -26,7 +26,7 @@ console.log(route.path);
 
 <template>
     <nav
-        :class="`fixed z-50 ${route.path == '/' ? 'bg-transparent backdrop-blur-md text-white' : 'bg-white'} w-full flex justify-around items-center border-dashed border-b py-6`"
+        :class="`fixed z-50 ${route.path == '/' && !props.user ? 'bg-transparent backdrop-blur-md text-white' : 'bg-white'} w-full flex justify-around items-center border-dashed border-b py-6`"
     >
         <NuxtLink to="/" class="heading text-3xl">Setela</NuxtLink>
         <ul class="flex items-center">

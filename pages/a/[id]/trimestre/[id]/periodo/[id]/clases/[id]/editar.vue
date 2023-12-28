@@ -136,7 +136,7 @@ const handleSubmit = async () => {
 <template>
     <div>
         <h1 v-if="error" class="py-40 text-center">Esta clase no existe</h1>
-        <div v-else class="py-40 w-7/12 block m-auto">
+        <div v-else class="container">
             <div v-if="subject.userId == props.user?.id">
                 <h1>Editar lección '{{ lesson.title }}'</h1>
                 <form @submit.prevent="handleSubmit">

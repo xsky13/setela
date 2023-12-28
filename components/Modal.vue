@@ -71,8 +71,8 @@ defineExpose({ closeModal, openModal, isOpen });
                         >
                             <DialogPanel
                                 :class="`${
-                                    props.width || 'w-full max-w-xl'
-                                } max-h-[36rem] ${props.height} overflow-y-scroll transform overflow-hidden rounded-2xl border-[14px] border-white bg-white p-6 text-left align-middle shadow-xl transition-all`"
+                                    'md:' + props.width || 'w-full md:max-w-xl'
+                                } px-5 md:px-0 max-h-[36rem] ${props.height} overflow-y-scroll transform overflow-hidden rounded-2xl border-[14px] border-white bg-white p-6 text-left align-middle shadow-xl transition-all`"
                             >
                                 <DialogTitle
                                     as="h1"

@@ -163,7 +163,7 @@ const handleSubmit = async () => {
     <div v-if="!subject">
         <h1 class="text-center py-40">Este periodo no existe</h1>
     </div>
-    <div v-else class="py-40 w-7/12 block m-auto">
+    <div v-else class="py-40 w-10/12 md:w-9/12 lg:w-7/12 block m-auto">
         <h1>Crear Clase</h1>
         <form @submit.prevent="handleSubmit" class="mt-4">
             <div class="mb-6">

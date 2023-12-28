@@ -113,7 +113,7 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div class="container">
-        <h1>Crear Prueba</h1>
+        <h1>Crear evaluación</h1>
         <form @submit.prevent="handleSubmit">
             <div class="my-5">
                 <label for="title">Titulo de la prueba</label>
@@ -156,7 +156,7 @@ const handleSubmit = async () => {
                             </svg>
                         </div>
                     </div>
-                    <div class="mb-4 flex items-center">
+                    <div class="mb-4 md:flex items-center">
                         <input
                             type="text"
                             class="text-field w-full"
@@ -164,7 +164,7 @@ const handleSubmit = async () => {
                             placeholder="Su pregunta"
                         />
                         <Listbox v-model="selectedType">
-                            <div class="relative ml-5 w-4/12">
+                            <div class="relative mt-3 md:mt-0 md:ml-5 md:w-4/12">
                                 <ListboxButton
                                     class="btn btn-secondary !bg-white w-full"
                                     >{{ question.type }}</ListboxButton

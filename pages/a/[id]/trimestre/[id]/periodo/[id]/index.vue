@@ -179,13 +179,13 @@ const deleteTest = async (testId) => {
 </script>
 
 <template>
-    <div class="py-40 block m-auto w-7/12">
+    <div class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-7/12">
         <h1 v-if="!subject.id">No existe este periodo</h1>
         <div v-else>
             <h1>{{ subject.title }}</h1>
             <div
                 v-if="subject.userId === props.user?.id"
-                class="flex justify-between items-center h3 mt-10 mb-2"
+                class="flex justify-between items-center h3 mt-16 mb-2"
             >
                 <h3>Clases</h3>
                 <NuxtLink :to="`./${route.params.id}/crear-clase`" class="btn btn-primary"
@@ -271,14 +271,14 @@ const deleteTest = async (testId) => {
                 </div>
             </div>
 
-            <div class="mt-10">
+            <div class="mt-20">
                 <div class="flex items-end justify-between">
                     <h3>Evaluaciones</h3>
                     <NuxtLink
-                        :to="`./prueba/crear`"
+                        :to="`./${route.params.id}/evaluacion/crear`"
                         class="btn btn-secondary"
                         v-if="props.user?.id == subject.userId"
-                        >Crear Prueba</NuxtLink
+                        >Crear Evaluación</NuxtLink
                     >
                 </div>
                 <img
@@ -300,7 +300,7 @@ const deleteTest = async (testId) => {
                         >
                             <div>
                                 <NuxtLink
-                                    :to="`./${route.params.id}/prueba/${test.id}`"
+                                    :to="`./${route.params.id}/evaluacion/${test.id}`"
                                     >{{ test.title }}</NuxtLink
                                 >
                                 <div
@@ -360,13 +360,13 @@ const deleteTest = async (testId) => {
                                         class="text-sm cursor-pointer"
                                         v-if="test.started"
                                         @click="() => endTest(test.id)"
-                                        >Terminar prueba</span
+                                        >Terminar evaluación</span
                                     >
                                     <span
                                         class="text-sm cursor-pointer"
                                         v-if="!test.started"
                                         @click="() => startTest(test.id)"
-                                        >Comenzar prueba</span
+                                        >Comenzar evaluación</span
                                     >
                                 </div>
                                 <img
