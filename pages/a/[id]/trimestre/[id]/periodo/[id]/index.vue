@@ -179,7 +179,7 @@ const deleteTest = async (testId) => {
 </script>
 
 <template>
-    <div class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-7/12">
+    <div class="container">
         <h1 v-if="!subject.id">No existe este periodo</h1>
         <div v-else>
             <h1>{{ subject.title }}</h1>

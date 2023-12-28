@@ -5,7 +5,8 @@ const user = useSupabaseUser();
 <template>
     <!-- <Loading v-if="loading" /> -->
     <div>
-        <div v-if="user" class="block m-auto w-10/12 md:w-9/12 lg:w-7/12 pt-40">
+        <div v-if="user" class="container">
+            
             <Account />
         </div>
         <Auth v-if="!user" />

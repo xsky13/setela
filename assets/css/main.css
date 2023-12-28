@@ -70,7 +70,7 @@ h1, h2, h3, .heading {
 }
 
 .container {
-    @apply py-40 w-10/12 md:w-9/12 lg:w-7/12 block m-auto;
+    @apply py-32 md:py-36 w-10/12 md:w-9/12 lg:w-7/12 block m-auto;
 }
 
 .box-radio {
