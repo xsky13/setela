@@ -43,7 +43,7 @@ defineExpose({ closeModal, openModal, isOpen });
             </button>
         </div>
         <TransitionRoot appear :show="isOpen" as="template">
-            <Dialog as="div" @close="closeModal" class="relative z-[100]">
+            <Dialog as="div" @close="closeModal" class="relative z-[105]">
                 <TransitionChild
                     as="template"
                     enter="duration-300 ease-out"
@@ -72,7 +72,7 @@ defineExpose({ closeModal, openModal, isOpen });
                             <DialogPanel
                                 :class="`${
                                     'md:' + props.width || 'w-full md:max-w-xl'
-                                } px-5 md:px-0 max-h-[36rem] ${props.height} overflow-y-scroll transform overflow-hidden rounded-2xl border-[14px] border-white bg-white p-6 text-left align-middle shadow-xl transition-all`"
+                                } px-5 md:px-6 max-h-[36rem] ${props.height} overflow-y-scroll transform overflow-hidden rounded-2xl border-[14px] border-white bg-white p-6 text-left align-middle shadow-xl transition-all`"
                             >
                                 <DialogTitle
                                     as="h1"
