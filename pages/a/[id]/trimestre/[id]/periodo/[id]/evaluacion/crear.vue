@@ -5,11 +5,12 @@ import {
     ListboxOptions,
     ListboxOption,
 } from "@headlessui/vue";
+import { ChevronLeftIcon } from "@heroicons/vue/20/solid";
 import { ref } from "vue";
 
 const supabase = useSupabaseClient();
 const route = useRoute();
-const props = defineProps(['user']);
+const props = defineProps(["user"]);
 
 const questions = ref([
     {
@@ -73,12 +74,15 @@ const handleSubmit = async () => {
         error.value = null;
         formLoading.value = true;
         // Create the test
-        const { data: test } = await supabase.from("test").insert({
-            title: title.value,
-            started: false,
-            subjectId: route.params.id,
-            userId: props.user?.id
-        }).select();
+        const { data: test } = await supabase
+            .from("test")
+            .insert({
+                title: title.value,
+                started: false,
+                subjectId: route.params.id,
+                userId: props.user?.id,
+            })
+            .select();
 
         if (test) {
             for (const question of questions.value) {
@@ -113,6 +117,12 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div class="container">
+        <div class="flex mb-6">
+            <ChevronLeftIcon class="text-gray-600 h-5 w-5" />
+            <NuxtLink to="../" class="font-bold text-sm text-gray-600 ml-1"
+                >Atras</NuxtLink
+            >
+        </div>
         <h1>Crear evaluación</h1>
         <form @submit.prevent="handleSubmit">
             <div class="my-5">
@@ -164,7 +174,9 @@ const handleSubmit = async () => {
                             placeholder="Su pregunta"
                         />
                         <Listbox v-model="selectedType">
-                            <div class="relative mt-3 md:mt-0 md:ml-5 md:w-4/12">
+                            <div
+                                class="relative mt-3 md:mt-0 md:ml-5 md:w-4/12"
+                            >
                                 <ListboxButton
                                     class="btn btn-secondary !bg-white w-full"
                                     >{{ question.type }}</ListboxButton
@@ -277,7 +289,10 @@ const handleSubmit = async () => {
                 No hay preguntas
             </div>
             <p v-if="error" class="text-red-600 mb-6">{{ error }}</p>
-            <button class="btn btn-primary w-full -mb-10" :disabled="formLoading">
+            <button
+                class="btn btn-primary w-full -mb-10"
+                :disabled="formLoading"
+            >
                 <img src="/loading_white.svg" width="20" v-if="formLoading" />
                 <span v-else>Crear Prueba</span>
             </button>

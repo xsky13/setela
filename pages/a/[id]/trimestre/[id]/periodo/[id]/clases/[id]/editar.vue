@@ -3,6 +3,7 @@ import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import ImageTool from "@editorjs/image";
+import { ArrowLeftIcon, ChevronLeftIcon } from "@heroicons/vue/20/solid";
 
 const route = useRoute();
 const props = defineProps(["user"]);
@@ -137,6 +138,10 @@ const handleSubmit = async () => {
     <div>
         <h1 v-if="error" class="py-40 text-center">Esta clase no existe</h1>
         <div v-else class="container">
+            <div class="flex mb-6">
+                <ChevronLeftIcon class="text-gray-600 h-5 w-5"/>
+                <NuxtLink to="./" class="font-bold text-sm text-gray-600 ml-1">Atras</NuxtLink>
+            </div>
             <div v-if="subject.userId == props.user?.id">
                 <h1>Editar lección '{{ lesson.title }}'</h1>
                 <form @submit.prevent="handleSubmit">

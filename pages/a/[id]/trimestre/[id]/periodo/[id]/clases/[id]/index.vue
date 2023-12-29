@@ -31,7 +31,7 @@ const { data: lesson, error } = await supabase
 const subjectId = route.path.split("/")[6];
 const { data: subject } = await supabase
     .from("subject")
-    .select("userId")
+    .select("userId, title, id")
     .single()
     .eq("id", subjectId);
 
@@ -149,12 +149,43 @@ const addMaterial = async () => {
 
     await fetchMaterials();
 };
+
+const { data: trimester } = await supabase
+    .from("trimester")
+    .select()
+    .eq("id", route.path.split('/')[4])
+    .single();
+
+
+
+const getYearText = computed(() => {
+    if (trimester) {
+        console.log(trimester);
+        if (trimester.yearId == "1") {
+            return "Primer año"
+        } else if (trimester.yearId == "2") {
+            return "Segundo año"
+        } else if (trimester.yearId == "3") {
+            return "Tercer año"
+        } else if (trimester.yearId == "4") {
+            return "Cuarto año"
+        }
+    }
+});
 </script>
 
 <template>
     <div>
         <h1 v-if="error" class="py-40 text-center">Esta clase no existe</h1>
         <div v-else class="container">
+            <Breadcrumbs
+                :links="[
+                    { to: '/a/' + trimester.yearId, text: getYearText },
+                    { to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id, text: trimester.title },
+                    { to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id + '/periodo/' + subject.id, text: subject.title },
+                    { to: '#', text: lesson.title, last: true },
+                ]"
+            />
             <div class="mb-6 flex justify-between items-center">
                 <div>
                     <h1>{{ lesson.title }}</h1>

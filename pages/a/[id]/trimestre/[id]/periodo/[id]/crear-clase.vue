@@ -14,6 +14,8 @@ const title = ref();
 const files = ref([]);
 const supabase = useSupabaseClient();
 
+const filesInserted = ref(false);
+
 /**FETCH DATA */
 const { data: supaSubject } = await supabase
     .from("subject")
@@ -134,21 +136,28 @@ const handleSubmit = async () => {
                                 .then(async () => {
                                     console.log(res.data);
                                     // add the item to the material table
-                                    await supabase.from("material").insert({
-                                        url:
-                                            "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_material/" +
-                                            file.name,
-                                        name: file.name,
-                                        lessonId: res.data.id,
-                                    });
-
-                                    alert("Su clase ha sido creada");
-
-                                    // Remove the lesson loading state
-                                    formLoading.value = false;
-
-                                    navigateTo("./");
+                                    await supabase
+                                        .from("material")
+                                        .insert({
+                                            url:
+                                                "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_material/" +
+                                                file.name,
+                                            name: file.name,
+                                            lessonId: res.data.id,
+                                        })
+                                        .then(
+                                            () => (filesInserted.value = true)
+                                        );
                                 });
+                        }
+
+                        if (filesInserted.value) {
+                            alert("Su clase ha sido creada");
+
+                            // Remove the lesson loading state
+                            formLoading.value = false;
+
+                            navigateTo("./");
                         }
                     });
             })
@@ -157,13 +166,43 @@ const handleSubmit = async () => {
             });
     }
 };
+
+/** LINKS FOR BREADCRUMBS */
+
+const { data: trimester } = await supabase
+    .from("trimester")
+    .select()
+    .eq("id", subject.value.trimesterId)
+    .single();
+
+const getYearText = computed(() => {
+    if (trimester) {
+        if (trimester.yearId == "1") {
+            return "Primer año"
+        } else if (trimester.yearId == "2") {
+            return "Segundo año"
+        } else if (trimester.yearId == "3") {
+            return "Tercer año"
+        } else if (trimester.yearId == "4") {
+            return "Cuarto año"
+        }
+    }
+});
 </script>
 
 <template>
     <div v-if="!subject">
         <h1 class="text-center py-40">Este periodo no existe</h1>
     </div>
-    <div v-else class="py-40 w-10/12 md:w-9/12 lg:w-7/12 block m-auto">
+    <div v-else class="container">
+        <Breadcrumbs
+            :links="[
+                { to: '/a/' + trimester.yearId, text: getYearText },
+                { to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id, text: trimester.title },
+                { to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id + '/periodo/' + subject.id, text: subject.title },
+                { to: '#', text: 'Crear clase', last: true },
+            ]"
+        />
         <h1>Crear Clase</h1>
         <form @submit.prevent="handleSubmit" class="mt-4">
             <div class="mb-6">

@@ -6,7 +6,7 @@ const user = useSupabaseUser();
     <!-- <Loading v-if="loading" /> -->
     <div>
         <div v-if="user" class="container">
-            
+            <Breadcrumbs home="true" />
             <Account />
         </div>
         <Auth v-if="!user" />

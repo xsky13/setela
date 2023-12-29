@@ -221,9 +221,60 @@ const finishTest = async (testId) => {
             navigateTo("../");
         });
 };
+
+const trimester = ref();
+
+const { data: subject } = await supabase
+    .from("subject")
+    .select()
+    .eq("id", route.path.split("/")[6])
+    .single();
+
+if (subject) {
+    const { data: supaTrimester } = await supabase
+        .from("trimester")
+        .select()
+        .eq("id", route.path.split("/")[4])
+        .single();
+
+    trimester.value = supaTrimester;
+}
+
+const getYearText = computed(() => {
+    if (route.path.split("/")[2] == "1") {
+        return "Primer año";
+    } else if (route.path.split("/")[2] == "2") {
+        return "Segundo año";
+    } else if (route.path.split("/")[2] == "3") {
+        return "Tercer año";
+    } else if (route.path.split("/")[2] == "4") {
+        return "Cuarto año";
+    }
+});
+
 </script>
 <template>
     <div class="container">
+        <Breadcrumbs
+            :links="[
+                { to: '/a/' + trimester.yearId, text: getYearText },
+                {
+                    to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id,
+                    text: trimester.title,
+                },
+                {
+                    to:
+                        '/a/' +
+                        trimester.yearId +
+                        '/trimestre/' +
+                        trimester.id +
+                        '/periodo/' +
+                        subject.id,
+                    text: subject.title,
+                },
+                { to: '#', text: test.title, last: true },
+            ]"
+        />
         <h1 class="text-center" v-if="!testExists">Esta prueba no existe</h1>
         <div v-else>
             <!-- {{ userSubmitedTest }} -->
@@ -302,11 +353,19 @@ const finishTest = async (testId) => {
                                             (submission) => !submission.graded
                                         )"
                                         :testSubmission="testSubmission"
-                                        :deleteTestSubmission="deleteTestSubmission"
-                                        :deleteTestSubmissionLoading="deleteTestSubmissionLoading"
+                                        :deleteTestSubmission="
+                                            deleteTestSubmission
+                                        "
+                                        :deleteTestSubmissionLoading="
+                                            deleteTestSubmissionLoading
+                                        "
                                         :testAnswers="testAnswers"
-                                        :get-test-submissions="getTestSubmissions"
-                                        :get-corrected-test-submissions="getCorrectedTestSubmissions"
+                                        :get-test-submissions="
+                                            getTestSubmissions
+                                        "
+                                        :get-corrected-test-submissions="
+                                            getCorrectedTestSubmissions
+                                        "
                                     />
                                     <div v-else class="box mt-6">
                                         <p class="text-center py-6 md:py-12">
@@ -344,7 +403,15 @@ const finishTest = async (testId) => {
                                                 testSubmission, i
                                             ) in correctedTestSubmissions"
                                         >
-                                            <CorrectedTestSubmission :get-test-submissions="getTestSubmissions" :get-corrected-test-submissions="getCorrectedTestSubmissions" :testSubmission="testSubmission" />
+                                            <CorrectedTestSubmission
+                                                :get-test-submissions="
+                                                    getTestSubmissions
+                                                "
+                                                :get-corrected-test-submissions="
+                                                    getCorrectedTestSubmissions
+                                                "
+                                                :testSubmission="testSubmission"
+                                            />
                                         </div>
                                     </div>
                                 </div>

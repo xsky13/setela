@@ -7,11 +7,6 @@ const supabase = useSupabaseClient();
 const subject = ref();
 const props = defineProps(["user"]);
 
-const title = ref();
-const content = ref();
-const error = ref();
-const formLoading = ref(false);
-
 const lessons = ref();
 const lessonsLoading = ref(true);
 
@@ -20,9 +15,6 @@ const testsLoading = ref(false);
 const deleteTestLoading = ref(false);
 
 const testSubmissions = ref();
-
-const createLessonModalRef = ref(null);
-const editLessonModalRef = ref(null);
 
 const deleteLessonModalRef = ref(null);
 const lessonDeleteLoading = ref(false);
@@ -176,10 +168,39 @@ const deleteTest = async (testId) => {
     loadingImg.classList.add("hidden");
     deleteIcon.classList.remove("hidden");
 };
+
+/** LINKS FOR BREADCRUMBS */
+
+const { data: trimester } = await supabase
+    .from("trimester")
+    .select()
+    .eq("id", subject.value.trimesterId)
+    .single();
+
+const getYearText = computed(() => {
+    if (trimester) {
+        if (trimester.yearId == "1") {
+            return "Primer año"
+        } else if (trimester.yearId == "2") {
+            return "Segundo año"
+        } else if (trimester.yearId == "3") {
+            return "Tercer año"
+        } else if (trimester.yearId == "4") {
+            return "Cuarto año"
+        }
+    }
+});
 </script>
 
 <template>
     <div class="container">
+        <Breadcrumbs
+            :links="[
+                { to: '/a/' + trimester.yearId, text: getYearText },
+                { to: '/a/' + trimester.yearId + '/trimestre/' + trimester.id, text: trimester.title },
+                { to: '#', text: subject.title, last: true },
+            ]"
+        />
         <h1 v-if="!subject.id">No existe este periodo</h1>
         <div v-else>
             <h1>{{ subject.title }}</h1>
@@ -188,7 +209,9 @@ const deleteTest = async (testId) => {
                 class="flex justify-between items-center h3 mt-16 mb-2"
             >
                 <h3>Clases</h3>
-                <NuxtLink :to="`./${route.params.id}/crear-clase`" class="btn btn-primary"
+                <NuxtLink
+                    :to="`./${route.params.id}/crear-clase`"
+                    class="btn btn-primary"
                     >Crear Clase</NuxtLink
                 >
             </div>

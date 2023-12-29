@@ -9,7 +9,7 @@ const profesorForSubject = ref([]);
 // get year based on param id
 const { data: supaTrimester } = await supabase
     .from("trimester")
-    .select("id, title")
+    .select("id, title, yearId")
     .eq("id", route.params.id)
     .single();
 
@@ -52,11 +52,23 @@ if (!supaTrimester) {
     }
 }
 
-// console.log(subjects.value);
+const { data: year } = await supabase
+    .from("year")
+    .select()
+    .eq("id", trimester.value.yearId)
+    .single();
 </script>
 <template>
-    <div class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-7/12">
-        <h1 v-if="!trimesterExists" class="text-center">Este año no existe</h1>
+    <div class="container">
+        <Breadcrumbs
+            :links="[
+                { to: '/a/' + trimester.yearId, text: year.title },
+                { to: '#', text: trimester.title, last: true },
+            ]"
+        />
+        <h1 v-if="!trimesterExists" class="text-center">
+            Este trimestre no existe
+        </h1>
         <div v-else>
             <h1>{{ trimester.title }}</h1>
             <NuxtLink

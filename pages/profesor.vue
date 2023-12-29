@@ -6,7 +6,7 @@ import {
     ListboxOptions,
     ListboxOption,
 } from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+import { CheckIcon, ChevronLeftIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
 
 const stage = ref("year");
 const props = defineProps(["user"]);
@@ -225,7 +225,11 @@ const handleSubmit = async () => {
 </script>
 <template>
     <div>
-        <div v-if="props.user?.invitedAsProfesor" class="py-40 block m-auto w-10/12 md:w-9/12 lg:w-6/12">
+        <div v-if="props.user?.invitedAsProfesor" class="container">
+            <div class="flex mb-6">
+                <ChevronLeftIcon class="text-gray-600 h-5 w-5"/>
+                <NuxtLink to="../" class="font-bold text-sm text-gray-600 ml-1">Atras</NuxtLink>
+            </div>
             <h1>Invitación de profesorado</h1>
 
             <form @submit.prevent="handleSubmit" class="my-5">
