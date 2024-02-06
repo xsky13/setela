@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;800&family=Rubik:wght@400;500&display=swap');
+
+* {
+    @apply text-[.98rem];
+}
+
+*:not(h1, h2, h3) {
+    font-family: Rubik, sans-serif;
+}
+
+.sans {
+    font-family: Rubik, sans-serif !important;
+}
+
+h1 {
+    @apply md:text-5xl text-4xl;
+}
+
+h2 {
+    @apply md:text-4xl text-3xl;
+}
+
+h3 {
+    @apply md:text-3xl text-2xl;
+}
+
+p, label, li, div, span, a {
+    @apply md:text-base text-sm
+}
+
+h1, h2, h3, .heading {
+    @apply font-bold;
+    font-family: "Playfair Display", serif !important;
+}
+
+.text-field {
+    @apply w-full md:text-base text-sm border border-gray-300 rounded-lg px-5 py-2.5 focus:outline-slate-600;
+}
+
+.year-box {
+    @apply peer-checked:border-black peer-checked:font-bold w-full block p-5 rounded-xl border border-dashed hover:-translate-y-2 transition duration-300 cursor-pointer my-5;
+}
+
+.btn {
+    @apply inline-flex justify-center items-center text-center px-4 py-2.5 rounded-md shadow-xl transition duration-300 text-sm cursor-pointer disabled:bg-gray-500 disabled:cursor-default disabled:hover:bg-gray-500 disabled:shadow-sm;
+}
+
+.btn span {
+    @apply text-sm;
+}
+
+.btn-primary {
+    @apply bg-gray-900 text-white hover:bg-gray-800 focus:-translate-y-2;
+}
+
+.btn-secondary {
+    @apply shadow-none border bg-gray-50 border-dashed hover:-translate-y-2;
+}
+
+.btn-danger {
+    @apply text-white bg-red-700 hover:bg-red-800 hover:-translate-y-2;
+}
+
+.link {
+    @apply text-blue-600 border-b border-blue-500;
+}
+
+.box {
+    @apply bg-gray-50 w-full block rounded-lg border border-dashed px-6 py-4;
+}
+
+.container {
+    @apply py-32 md:py-36 w-10/12 md:w-9/12 lg:w-7/12 block m-auto;
+}
+
+.box-radio {
+    @apply appearance-none absolute top-0 left-0 w-full z-20 border border-dashed h-full rounded-lg checked:border-2 checked:border-solid checked:border-slate-600;
+}
+
+.box-radio-label {
+    @apply block w-full px-5 py-3 relative rounded-lg bg-gray-50;
+}
+
+.box-radio-text {
+    @apply relative z-10;
+}
