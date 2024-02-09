@@ -173,9 +173,13 @@ const gradeHomework = async (homeworkId, grade, entryNum) => {
                     </button>
                 </Modal>
             </div>
-            <div class="">{{ props.homework?.content }}</div>
+            <div>
+                <NuxtLink :to="props.homework?.file_link" target="_blank" class="link">{{ props.homework?.file_name }}</NuxtLink>
+            </div>
+            <div v-if="props.homework?.content">{{ props.homework?.content }}</div>
 
-            <br clear="all" />
+
+            <br clear="all" v-if="props.user.admin || props.user.profesor" />
             <br v-if="!(props.user.admin || props.user.profesor)" />
             <span
                 class="font-bold"

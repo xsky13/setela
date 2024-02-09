@@ -25,14 +25,6 @@ const props = defineProps(["user"]);
 const deleteTestSubmissionModalRef = ref(null);
 const deleteTestSubmissionLoading = ref(false);
 
-const markAsUncorrectedModalRef = ref(null);
-const markAsUncorrectedLoading = ref(null);
-
-const correctTestSubmissionModalRef = ref(null);
-const correctTestSubmissionLoading = ref(false);
-const correctTestError = ref();
-const currentlyCorrecting = ref({});
-
 const finishTestLoading = ref(false);
 
 const userTestFile = ref();
