@@ -44,14 +44,12 @@ const addQuestion = () => {
 };
 
 const deleteQuestion = (question) => {
-    questions.value = questions.value.filter((q) => q !== question);
+    const idxQuestion = questions.value.indexOf(question);
+    if (idxQuestion !== -1) questions.value.splice(idxQuestion, 1);
 };
 
 const setQuestionType = (question, type) => {
     questions.value[question].type = type;
-    if (question.type !== "Multiple opción") {
-        delete questions.value[question].options;
-    }
 };
 
 const addOption = (question) => {
@@ -60,13 +58,8 @@ const addOption = (question) => {
 };
 
 const deleteOption = (question, option) => {
-    const questionToRemoveOption = questions.value.filter(
-        (q) => q == question
-    )[0];
-    const optionsWithoutRemoved = questionToRemoveOption.options.filter(
-        (o) => o !== option
-    );
-    questionToRemoveOption.options = optionsWithoutRemoved;
+    const idxToRemove = question.options.indexOf(option);
+    if (idxToRemove !== -1) question.options.splice(idxToRemove, 1);
 };
 
 const handleSubmit = async () => {
@@ -97,8 +90,6 @@ const handleSubmit = async () => {
                         })
                         .select()
                         .then((res) => {
-                            console.log(res);
-                            
                             navigateTo('./' + res.data[0].id)
                         });
                 });
@@ -208,7 +199,7 @@ const handleSubmit = async () => {
                     <div>
                         <div class="flex items-center justify-between mb-2">
                             <label for="title">Pregunta</label>
-                            <div @click="() => deleteQuestion(question)" class="text-red-600">
+                            <div @click="() => deleteQuestion(question)" class="text-red-600 cursor-pointer">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -257,7 +248,7 @@ const handleSubmit = async () => {
                             <!-- If there are no options -->
                             <div class="box text-center text-sm h-20 !flex items-center justify-center"
                                 v-if="!question.options?.length">
-                                No hay opciones
+                                Todavía no hay opciones
                             </div>
                             <!-- If there are options -->
                             <div v-else>
@@ -292,7 +283,7 @@ const handleSubmit = async () => {
                     </div>
                 </div>
                 <div v-if="!questions.length" class="box !flex items-center justify-center h-32 mb-10">
-                    No hay preguntas
+                    Todavía no hay preguntas
                 </div>
                 <p v-if="error" class="text-red-600 mb-6">{{ error }}</p>
                 <button class="btn btn-primary w-full -mb-10" :disabled="formLoading">
