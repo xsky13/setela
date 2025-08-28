@@ -176,7 +176,7 @@ const handleSubmit = async () => {
                         score: null,
                         graded: false,
                         user_name: props.user?.full_name,
-                        file_link: 'https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/test_entries/' + userTestFile.value.name,
+                        file_link: 'https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/test_entries/' + userTestFile.value.name,
                     });
             });
     } else {

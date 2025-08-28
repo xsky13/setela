@@ -1,10 +1,14 @@
 <script setup>
+import { subjectStore } from "~/stores/subjects";
 import AdminSubject from "./AdminSubject.vue";
 
 
 const supabase = useSupabaseClient();
 const props = defineProps(["user"]);
-const subjects = ref([]);
+// const subjects = ref([]);
+
+const subjects = subjectStore.personalSubjects;
+
 
 const { data: supaSubjects } = await supabase
     .from("subject")
@@ -12,11 +16,11 @@ const { data: supaSubjects } = await supabase
     .eq("userId", props.user.id);
 
 for (const subject of supaSubjects) {
-    subjects.value.push({ ...subject, loading: false });
+    subjects.push({ ...subject, loading: false });
 }
 
 const removeSubject = async (subjectId, elementIndex) => {
-    subjects.value[elementIndex].loading = true;
+    subjects[elementIndex].loading = true;
 
     const { data: subjectToChangeProfesor } = await supabase
         .from("subject")
@@ -30,11 +34,21 @@ const removeSubject = async (subjectId, elementIndex) => {
             .update({ userId: null })
             .eq("id", subjectId)
             .then(() => {
-                subjects.value[elementIndex].loading = false;
-                subjects.value.splice(elementIndex, 1)
+                subjects[elementIndex].loading = false;
+                subjects.splice(elementIndex, 1)
+
+                const allIndex = subjectStore.allSubjects.findIndex(s => s.id === subjectId);
+                if (allIndex !== -1) {
+                    subjectStore.allSubjects[allIndex].userId = null;
+                    subjectStore.allSubjects[allIndex].name = "";
+                }
             });
     }
 };
+
+// esperar evento de AdminSubject.vue para actualizar las materias personales
+
+
 </script>
 
 <template>

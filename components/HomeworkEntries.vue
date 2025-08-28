@@ -70,7 +70,7 @@ const addHomeworkEntry = async (homeworkId, homeworkContent) => {
                         text: homeworkContent,
                         userId: props.user?.id,
                         link:
-                            "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/homework_entry_material/" +
+                            "https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/homework_entry_material/" +
                             homeworkFile.value.name,
                         linkName: homeworkFile.value.name,
                     })

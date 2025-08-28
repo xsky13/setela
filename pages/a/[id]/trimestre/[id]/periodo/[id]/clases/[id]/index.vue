@@ -105,7 +105,7 @@ const createHomework = async () => {
             } else {
                 await supabase
                     .from("homework")
-                    .insert({ content: homeworkContent.value, lessonId: lesson.id, file_link: 'https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/homework_files/' + homeworkFiles.value.name, file_name: homeworkFiles.value.name })
+                    .insert({ content: homeworkContent.value, lessonId: lesson.id, file_link: 'https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/homework_files/' + homeworkFiles.value.name, file_name: homeworkFiles.value.name })
                     .then(async () => {
                         await getHomework();
 
@@ -165,7 +165,7 @@ const addMaterial = async () => {
             .then(async () => {
                 await supabase.from("material").insert({
                     url:
-                        "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_material/" +
+                        "https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/lesson_material/" +
                         file.name,
                     name: file.name,
                     lessonId: lesson.id,

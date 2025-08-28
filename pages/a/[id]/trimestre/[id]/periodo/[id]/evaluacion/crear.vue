@@ -92,7 +92,7 @@ const handleSubmit = async () => {
                             subjectId: route.params.id,
                             userId: props.user?.id,
                             type: 'file',
-                            file_link: 'https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/tests/' + testFile.value.name,
+                            file_link: 'https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/tests/' + testFile.value.name,
                             file_name: testFile.value.name
                         })
                         .select()

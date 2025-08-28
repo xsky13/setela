@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   css: ["@/assets/css/main.css"],
   supabase: {
     // redirect: false
+    url: "https://vxbmlfllfigoazcbrzkh.supabase.co",
     redirectOptions: {
       login: '/'
     }

@@ -1,4 +1,5 @@
 <script setup>
+import { subjectStore } from "~/stores/subjects";
 import AdminSubject from "./AdminSubject.vue";
 const props = defineProps(["user"]);
 
@@ -6,7 +7,8 @@ const supabase = useSupabaseClient();
 const loading = ref(true);
 const subjectRef = ref();
 
-const subjects = ref([]);
+const subjects = subjectStore.allSubjects;
+
 
 const { data: supaSubjects } = await supabase
     .from("subject")
@@ -14,6 +16,7 @@ const { data: supaSubjects } = await supabase
     .order("id", { ascending: true });
 
 if (supaSubjects) {
+    // subjects.splice(0, subjects.length); 
     for (const subject of supaSubjects) {
         let name = "";
 
@@ -27,14 +30,14 @@ if (supaSubjects) {
             if (subjectUser) name = subjectUser.full_name;
         }
 
-        subjects.value.push({ ...subject, loading: false, name: name });
+        subjects.push({ ...subject, loading: false, name: name });
     }
 }
 
 if (subjects) loading.value = false;
 
 const addProfesorStatus = async (subjectId, elementIndex) => {
-    subjects.value[elementIndex].loading = true;
+    subjects[elementIndex].loading = true;
 
     const { data: subjectToChangeProfesor } = await supabase
         .from("subject")
@@ -48,9 +51,24 @@ const addProfesorStatus = async (subjectId, elementIndex) => {
             .update({ userId: props.user.id })
             .eq("id", subjectId)
             .then(() => {
-                subjects.value[elementIndex].loading = false;
-                subjects.value[elementIndex].name = props.user.full_name;
+                subjects[elementIndex].loading = false;
+                subjects[elementIndex].name = props.user.full_name;
+                subjects[elementIndex].userId = props.user.id;
+                subjects[elementIndex].name = props.user.full_name;
             });
+
+        // eliminar materia de la lista
+        // subjects.splice(elementIndex, 1);
+
+        // emitir evento para que se acutalizen las materias personales en PersonalSubjects.vue
+        // const emit = defineEmits(["update-personal-subjects"]);
+        subjectStore.personalSubjects.push({
+                    ...subjects[elementIndex],
+                    loading: false
+                });
+        // emit('assigned', { subjectId: subject.id, subject: subject })
+
+
     }
 };
 </script>
@@ -64,6 +82,7 @@ const addProfesorStatus = async (subjectId, elementIndex) => {
             v-for="(subject, i) in subjects"
             ref="subjectRef"
             :elementIndex="i"
+            :lista="true"
             :addProfesorStatus="addProfesorStatus"
             :subject="subject"
         />

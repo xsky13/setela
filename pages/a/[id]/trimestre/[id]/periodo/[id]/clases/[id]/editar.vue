@@ -69,7 +69,7 @@ onMounted(() => {
                                 success: 1,
                                 file: {
                                     url:
-                                        "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_images/" +
+                                        "https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/lesson_images/" +
                                         image.name,
                                 },
                             };

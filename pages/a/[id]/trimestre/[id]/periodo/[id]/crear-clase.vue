@@ -69,7 +69,7 @@ onMounted(() => {
                                 success: 1,
                                 file: {
                                     url:
-                                        "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_images/" +
+                                        "https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/lesson_images/" +
                                         image.name,
                                 },
                             };
@@ -142,7 +142,7 @@ const handleSubmit = async () => {
                                             .from("material")
                                             .insert({
                                                 url:
-                                                    "https://qbcqrbsridxcnypqtyqn.supabase.co/storage/v1/object/public/lesson_material/" +
+                                                    "https://vxbmlfllfigoazcbrzkh.supabase.co/storage/v1/object/public/lesson_material/" +
                                                     file.name,
                                                 name: file.name,
                                                 lessonId: res.data.id,

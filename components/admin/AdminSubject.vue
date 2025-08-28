@@ -7,13 +7,18 @@ const props = defineProps([
     "elementIndex",
     "loading",
     "adminIsProfesor",
-    "removeSubject"
+    "removeSubject",
+	"lista"
 ]);
 const supabase = useSupabaseClient();
 
 const loading = ref(true);
 const subjectProfesor = ref();
 const profesorStatusLoading = ref(false);
+const adminEsProfesor = computed(() => {
+	const suser = useSupabaseUser();
+	return props.subject.userId == suser.value.id;
+});
 
 const { data: trimester } = await supabase
     .from("trimester")
@@ -22,6 +27,13 @@ const { data: trimester } = await supabase
     .single();
 
 if (trimester) loading.value = false;
+
+// onMounted(() => {
+// 	const suser = useSupabaseUser();
+// 	if (props.subject.userId == suser.value.id) {
+// 		adminEsProfesor.value = true;
+// 	}
+// })
 
 // Set the subjects profesor if it exists
 if (props.subject.userId) {
@@ -47,6 +59,25 @@ const getYearText = computed(() => {
         }
     }
 });
+
+const hacerAdminProfesorDeMateria = () => {
+    props.addProfesorStatus(
+        props.subject.id,
+        props.elementIndex
+    )
+    // cambiar texto de boton
+	adminEsProfesor.value = true;
+}
+
+const eliminarMateriaDeAdmin = () => {
+                            props.removeSubject(
+                                props.subject.id,
+                                props.elementIndex
+                            )
+
+	adminEsProfesor.value = false;
+
+}
 
 defineExpose({ profesorStatusLoading, test: "hello" });
 </script>
@@ -91,15 +122,10 @@ defineExpose({ profesorStatusLoading, test: "hello" });
             </div>
             <button
                 v-if="!props.adminIsProfesor"
-                @click="
-                    () =>
-                        props.addProfesorStatus(
-                            props.subject.id,
-                            props.elementIndex
-                        )
-                "
+                @click="hacerAdminProfesorDeMateria"
                 type="button"
-                class="btn btn-primary w-full mt-4 md:w-auto md:mt-0"
+                :class="`btn btn-primary w-full mt-4 md:w-auto md:mt-0 ${adminEsProfesor && 'bg-gray-100'}`"
+				:disabled="adminEsProfesor"
             >
                 <img
                     v-if="props.subject.loading"
@@ -107,16 +133,19 @@ defineExpose({ profesorStatusLoading, test: "hello" });
                     width="20"
                     alt="cargando..."
                 />
-                <span v-else>Hacerse profesor de materia</span>
+                <span v-else>
+					<span v-if="adminEsProfesor">Usted ya es profesor de esta materia</span>
+					<span v-else>Hacerse profesor de materia </span>
+				</span>
             </button>
             <div v-else>
+				<button v-if="props.lista" class="btn btn-primary w-full mt-4 md:w-auto md:mt-0 bg-gray-100" disabled>
+					Usted ya es profesor de esta materia
+				</button>
                 <button
+				v-else
                     @click="
-                        () =>
-                            props.removeSubject(
-                                props.subject.id,
-                                props.elementIndex
-                            )
+                        eliminarMateriaDeAdmin
                     "
                 >
                     <img
