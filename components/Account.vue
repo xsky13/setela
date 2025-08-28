@@ -210,6 +210,11 @@ const inviteAsProfesor = async (userId, elementIndex) => {
         <div v-if="isAdmin">
             <Courses :user="{ id, full_name }" />
             <h3 class="h3 mt-6">Usuarios</h3>
+            <div v-if="!usersAdminAccess.length" class="box mt-8">
+                <p class="text-center p-6">
+                    No hay usuarios todavía
+                </p>
+            </div>
             <User
                 v-for="(user, i) in usersAdminAccess"
                 ref="userElementRef"
